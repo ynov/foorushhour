@@ -1,0 +1,7 @@
+FooRushHour/bin/*
+FooRushHour/obj/*
+*.csproj.user
+*.user
+*.swp
+*.suo
+
