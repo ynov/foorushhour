@@ -42,7 +42,7 @@ namespace FooRushHour
             Matrix = new int[height, width];
 
             BlockList = new List<Block>();
-            BlockList.AddRange(blockList);
+            blockList.ForEach(b => _addBlock(b));
 
             RefreshMatrix();
         }
