@@ -24,6 +24,12 @@ namespace FooRushHour
             set;
         }
 
+        public int Type
+        {
+            get;
+            private set;
+        }
+
         public int Size
         {
             get;
@@ -49,13 +55,21 @@ namespace FooRushHour
                     _blockPosition.X * Board.BOX_SQUARE_SIZE,
                     _blockPosition.Y * Board.BOX_SQUARE_SIZE
                 );
-                _board.RefreshMatrix();
+                if (_board != null)
+                    _board.RefreshMatrix();
             }
         }
 
-        public Block(Board board, Orientation orientation, int size, Point position)
+        public Board Board
+        {
+            get { return _board; }
+            set { _board = value; }
+        }
+
+        public Block(Board board, Orientation orientation, int size, Point position, int type = 0)
         {
             Id = ++_lastId;
+            Type = type;
 
             _board = board;
             Orientation = orientation;

@@ -12,15 +12,23 @@ namespace FooRushHour
 {
     public partial class MainForm : Form
     {
+        public static MainForm Instance
+        {
+            get;
+            set;
+        }
+
         public MainForm()
         {
             InitializeComponent();
             _mainFormInit();
+
+            Instance = this;
         }
 
         private void _mainFormInit()
         {
-            var boardControl = new BoardControl(new Board(6, 6));
+            var boardControl = new BoardControl(Board.TestBoard());
 
             var panel = new FlowLayoutPanel();
             panel.AutoSize = true;

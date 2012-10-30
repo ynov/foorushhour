@@ -40,6 +40,7 @@ namespace FooRushHour
         {
             _board.BlockList.ForEach(b => Controls.Add(new BlockControl(_board, b)));
             _board.PrintMatrix();
+            Console.WriteLine(_board.ToText());
         }
     }
 }
