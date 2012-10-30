@@ -9,6 +9,7 @@ namespace FooRushHour
     public class Board
     {
         public const int BOX_SQUARE_SIZE = 80;
+        private Block _blockOne = null;
 
         public List<Block> BlockList
         {
@@ -47,12 +48,18 @@ namespace FooRushHour
 
             Matrix = new int[height, width];
 
+            Block.ResetId();
             BlockList = new List<Block>();
             blockList.ForEach(b => _addBlock(b));
 
             EndPoint = endPoint;
 
             RefreshMatrix();
+        }
+
+        public bool GoalReached()
+        {
+            return (_blockOne.Postition == EndPoint);
         }
 
         public static Board TestBoard()
@@ -63,14 +70,14 @@ namespace FooRushHour
 
             List<Block> blocks = new List<Block>() {
                 new Block(null, Orientation.Horizontal, 2, new Point(2, 2), 1),
-                // new Block(null, Orientation.Horizontal, 3, new Point(3, 0)),
+                new Block(null, Orientation.Horizontal, 3, new Point(3, 0)),
                 new Block(null, Orientation.Horizontal, 2, new Point(2, 1)),
-                new Block(null, Orientation.Vertical, 2, new Point(4, 1)),
-                // new Block(null, Orientation.Vertical, 3, new Point(0, 1)),
-                // new Block(null, Orientation.Vertical, 3, new Point(4, 1)),
-                // new Block(null, Orientation.Horizontal, 3, new Point(3, 4)),
-                // new Block(null, Orientation.Horizontal, 3, new Point(3, 5)),
-                // new Block(null, Orientation.Vertical, 2, new Point(2, 4)),
+                // new Block(null, Orientation.Vertical, 2, new Point(4, 1)),
+                new Block(null, Orientation.Vertical, 3, new Point(0, 1)),
+                new Block(null, Orientation.Vertical, 3, new Point(4, 1)),
+                new Block(null, Orientation.Horizontal, 3, new Point(3, 4)),
+                new Block(null, Orientation.Horizontal, 3, new Point(3, 5)),
+                new Block(null, Orientation.Vertical, 2, new Point(2, 4)),
             };
 
             Board board = new Board(width, height, blocks, endPoint);
@@ -128,25 +135,20 @@ namespace FooRushHour
 
         private void _addBlock(Block block)
         {
-            block.Board = this;
-            BlockList.Add(block);
+            var b = new Block(this, block.Orientation, block.Size, block.Postition, block.Type);
+            BlockList.Add(b);
+            if (b.Type == 1)
+                _blockOne = b;
         }
 
         private void _addBlockToMatrix(Block block)
         {
             if (block.Orientation == Orientation.Horizontal)
                 for (int i = 0; i < block.Size; i++)
-                    Matrix[block.Postition.Y, block.Postition.X + i] = 8;
+                    Matrix[block.Postition.Y, block.Postition.X + i] = block.Id;
             else
                 for (int i = 0; i < block.Size; i++)
-                    Matrix[block.Postition.Y + i, block.Postition.X] = 8;
-
-            if (block.Type == 1 && block.Postition == EndPoint)
-            {
-                MainForm.Instance.Close();
-                Console.WriteLine("====\n...\nYou win!\n...\n====\n");
-                // Console.ReadLine();
-            }
+                    Matrix[block.Postition.Y + i, block.Postition.X] = block.Id;
         }
     }
 }

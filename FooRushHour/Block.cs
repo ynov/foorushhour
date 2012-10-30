@@ -12,6 +12,11 @@ namespace FooRushHour
         private Point _blockPosition;
         private Board _board;
 
+        public static void ResetId()
+        {
+            _lastId = 0;
+        }
+
         public int Id
         {
             get;
@@ -118,7 +123,7 @@ namespace FooRushHour
                     Postition = new Point(Postition.X, Postition.Y - 1);
                     break;
             }
-            _board.PrintMatrix();
+            // _board.PrintMatrix();
         }
     }
 }

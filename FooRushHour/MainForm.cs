@@ -28,7 +28,9 @@ namespace FooRushHour
 
         private void _mainFormInit()
         {
-            var boardControl = new BoardControl(Board.TestBoard());
+            
+            var solvedBoard = Solver.TestSolve();
+            var boardControl = new BoardControl(solvedBoard);
 
             var panel = new FlowLayoutPanel();
             panel.AutoSize = true;
