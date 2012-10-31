@@ -40,9 +40,10 @@ namespace FooRushHour
 
         private void _mainFormInit()
         {   
-            var solvedBoard = Solver.TestSolve();
-            var boardControl = new BoardControl(Board.TestBoard());
-            // var boardControl = new BoardControl(solvedBoard);
+            // var solvedBoard = Solver.TestDFSSolve();
+            var solvedBoard = Solver.TestBFSSolve();
+            // var boardControl = new BoardControl(Board.TestBoard());
+            var boardControl = new BoardControl(solvedBoard);
 
             var panel = new FlowLayoutPanel();
             panel.AutoSize = true;
