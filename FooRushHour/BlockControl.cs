@@ -55,6 +55,11 @@ namespace FooRushHour
             Controls.Add(_button);
             _button.Location = new Point(10, 10);
 
+            if (_block.Type == 1)
+                _button.BackColor = Color.Red;
+            else
+                _button.BackColor = Color.Gray;
+
             _button.MouseDown += new MouseEventHandler((s, e) => mouseDown = true);
             _button.MouseUp += new MouseEventHandler((s, e) => mouseDown = false);
             _button.MouseMove += new MouseEventHandler((s, e) => _mouseMove(e.X, e.Y));
