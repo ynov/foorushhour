@@ -65,12 +65,6 @@ namespace FooRushHour
             }
         }
 
-        public Board Board
-        {
-            get { return _board; }
-            set { _board = value; }
-        }
-
         public Block(Board board, Orientation orientation, int size, Point position, int type = 0)
         {
             Id = ++_lastId;
