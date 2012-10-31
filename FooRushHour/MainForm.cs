@@ -12,13 +12,25 @@ namespace FooRushHour
 {
     public partial class MainForm : Form
     {
+        private static MainForm _instance = null;
+
         public static MainForm Instance
         {
-            get;
-            set;
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new MainForm();
+                }
+                return _instance;
+            }
+            private set
+            {
+                _instance = value;
+            }
         }
 
-        public MainForm()
+        private MainForm()
         {
             InitializeComponent();
             _mainFormInit();
