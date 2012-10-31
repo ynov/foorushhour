@@ -42,6 +42,7 @@ namespace FooRushHour
         {
             
             var solvedBoard = Solver.TestSolve();
+            // var boardControl = new BoardControl(Board.TestBoard());
             var boardControl = new BoardControl(solvedBoard);
 
             var panel = new FlowLayoutPanel();

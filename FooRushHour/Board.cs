@@ -64,11 +64,11 @@ namespace FooRushHour
 
         public static Board TestBoard()
         {
-            int width = 6;
-            int height = 6;
-            Point endPoint = new Point(4, 2);
+            var width = 6;
+            var height = 6;
+            var endPoint = new Point(4, 2);
 
-            List<Block> blocks = new List<Block>() {
+            var blocks = new List<Block>() {
                 new Block(null, Orientation.Horizontal, 2, new Point(2, 2), 1),
                 new Block(null, Orientation.Horizontal, 3, new Point(3, 0)),
                 new Block(null, Orientation.Horizontal, 2, new Point(2, 1)),
@@ -80,7 +80,7 @@ namespace FooRushHour
                 new Block(null, Orientation.Vertical, 2, new Point(2, 4)),
             };
 
-            Board board = new Board(width, height, blocks, endPoint);
+            var board = new Board(width, height, blocks, endPoint);
             return board;
         }
 
@@ -107,7 +107,7 @@ namespace FooRushHour
 
         public override string ToString()
         {
-            StringBuilder str = new StringBuilder();
+            var str = new StringBuilder();
 
             BlockList.ForEach(b =>
                 str.Append(string.Format("[{0},{1},{2}]", b.Id, b.Postition.X, b.Postition.Y))
@@ -118,12 +118,13 @@ namespace FooRushHour
 
         public string ToText()
         {
-            StringBuilder str = new StringBuilder();
+            var str = new StringBuilder();
 
             str.Append(string.Format("SIZE: ({0}, {1})\n", Width, Height));
             str.Append(string.Format("END: ({0}, {1})\n", EndPoint.X, EndPoint.Y)); 
             str.Append("BLOCKS: {\n");
 
+            // BlockList Format:
             // [<id>,<orientation>,<type>,<size>|<x>,<y>]
             BlockList.ForEach(b =>
                 str.Append(string.Format("  [{0},{1},{2},{3}|{4},{5}]\n", b.Id, b.Orientation.ToString(), b.Type, b.Size, b.Postition.X, b.Postition.Y))

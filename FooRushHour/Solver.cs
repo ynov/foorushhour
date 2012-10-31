@@ -9,7 +9,7 @@ namespace FooRushHour
     {
         public static Board TestSolve()
         {
-            Board xboard = null;
+            Board solvedBoard = null;
             var boards = new Stack<Board>();
 
             var visited = new Dictionary<string, bool>();
@@ -17,8 +17,8 @@ namespace FooRushHour
 
             boards.Push(Board.TestBoard());
 
-            bool goal = false;
-            int i = 0;
+            var goal = false;
+            var i = 0;
             while (boards.Count != 0 && !goal)
             {
                 var currentBoard = boards.Pop();
@@ -28,13 +28,13 @@ namespace FooRushHour
                 //Console.WriteLine(i++);
                 goal = currentBoard.GoalReached();
                 if (goal)
-                    xboard = currentBoard;
+                    solvedBoard = currentBoard;
 
                 foreach (var block in currentBoard.BlockList)
                 {
                     if (block.ValidMove(Direction.Right))
                     {
-                        Board board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
+                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
                         board.BlockList[block.Id - 1].Move(Direction.Right);
                         if (!visited.ContainsKey(board.ToString()))
                         {
@@ -45,7 +45,7 @@ namespace FooRushHour
 
                     if (block.ValidMove(Direction.Left))
                     {
-                        Board board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
+                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
                         board.BlockList[block.Id - 1].Move(Direction.Left);
                         if (!visited.ContainsKey(board.ToString()))
                         {
@@ -56,7 +56,7 @@ namespace FooRushHour
 
                     if (block.ValidMove(Direction.Up))
                     {
-                        Board board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
+                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
                         board.BlockList[block.Id - 1].Move(Direction.Up);
                         if (!visited.ContainsKey(board.ToString()))
                         {
@@ -67,7 +67,7 @@ namespace FooRushHour
 
                     if (block.ValidMove(Direction.Down))
                     {
-                        Board board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
+                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
                         board.BlockList[block.Id - 1].Move(Direction.Down);
                         if (!visited.ContainsKey(board.ToString()))
                         {
@@ -78,7 +78,7 @@ namespace FooRushHour
                 }
             }
 
-            return xboard;
+            return solvedBoard;
         }
     }
 }
