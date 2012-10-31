@@ -70,13 +70,13 @@ namespace FooRushHour
             if (mouseDown)
             {
                 if (x > _button.Width && _block.ValidMove(Direction.Right))
-                    _block.Move(Direction.Right);
+                    _block.Move(Direction.Right, true);
                 else if (x < 0 && _block.ValidMove(Direction.Left))
-                    _block.Move(Direction.Left);
+                    _block.Move(Direction.Left, true);
                 else if (y > _button.Height && _block.ValidMove(Direction.Down))
-                    _block.Move(Direction.Down);
+                    _block.Move(Direction.Down, true);
                 else if (y < 0 && _block.ValidMove(Direction.Up))
-                    _block.Move(Direction.Up);
+                    _block.Move(Direction.Up, true);
 
                 Location = _block.Location;
             }

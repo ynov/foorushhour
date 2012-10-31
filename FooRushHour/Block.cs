@@ -106,7 +106,7 @@ namespace FooRushHour
             return false;
         }
 
-        public void Move(Direction dir)
+        public void Move(Direction dir, bool byMouse = false)
         {
             switch (dir)
             {
@@ -123,7 +123,13 @@ namespace FooRushHour
                     Postition = new Point(Postition.X, Postition.Y - 1);
                     break;
             }
-            // _board.PrintMatrix();
+
+            if (byMouse)
+            {
+                _board.PrintMatrix();
+                if (_board.GoalReached())
+                    Console.WriteLine("Goal Reached!");
+            }
         }
     }
 }
