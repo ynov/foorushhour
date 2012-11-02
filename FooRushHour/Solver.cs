@@ -7,6 +7,14 @@ namespace FooRushHour
 {
     public class Solver
     {
+        public static Direction[] directions = new Direction[] 
+        {
+            Direction.Right,
+            Direction.Left,
+            Direction.Up,
+            Direction.Down
+        };
+
         // DFS
         public static Board TestDFSSolve()
         {
@@ -25,66 +33,28 @@ namespace FooRushHour
                 var currentBoard = boards.Pop();
                 visited[currentBoard.ToString()] = true;
 
-                //currentBoard.PrintMatrix();
-                //Console.WriteLine(i++);
+                // currentBoard.PrintMatrix();
+                // Console.WriteLine(i++);
                 goal = currentBoard.GoalReached();
                 if (goal)
                     solvedBoard = currentBoard;
 
                 foreach (var block in currentBoard.BlockList)
                 {
-                    if (block.ValidMove(Direction.Right))
+                    foreach (var direction in directions)
                     {
-                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                        while (board.BlockList[block.Id - 1].ValidMove(Direction.Right))
+                        if (block.ValidMove(direction))
                         {
-                            board.BlockList[block.Id - 1].Move(Direction.Right);
-                            if (!visited.ContainsKey(board.ToString()))
+                            var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
+                            while (board.BlockList[block.Id - 1].ValidMove(direction))
                             {
-                                visited[board.ToString()] = true;
-                                boards.Push(board);
-                            }
-                        }
-                    }
-
-                    if (block.ValidMove(Direction.Left))
-                    {
-                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                        while (board.BlockList[block.Id - 1].ValidMove(Direction.Left))
-                        {
-                            board.BlockList[block.Id - 1].Move(Direction.Left);
-                            if (!visited.ContainsKey(board.ToString()))
-                            {
-                                visited[board.ToString()] = true;
-                                boards.Push(board);
-                            }
-                        }
-                    }
-
-                    if (block.ValidMove(Direction.Up))
-                    {
-                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                        while (board.BlockList[block.Id - 1].ValidMove(Direction.Up))
-                        {
-                            board.BlockList[block.Id - 1].Move(Direction.Up);
-                            if (!visited.ContainsKey(board.ToString()))
-                            {
-                                visited[board.ToString()] = true;
-                                boards.Push(board);
-                            }
-                        }
-                    }
-
-                    if (block.ValidMove(Direction.Down))
-                    {
-                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                        while (board.BlockList[block.Id - 1].ValidMove(Direction.Down))
-                        {
-                            board.BlockList[block.Id - 1].Move(Direction.Down);
-                            if (!visited.ContainsKey(board.ToString()))
-                            {
-                                visited[board.ToString()] = true;
-                                boards.Push(board);
+                                board.BlockList[block.Id - 1].Move(direction);
+                                if (!visited.ContainsKey(board.ToString()))
+                                {
+                                    visited[board.ToString()] = true;
+                                    boards.Push(board);
+                                }
+                                // board = new Board(board.Width, board.Height, board.BlockList, board.EndPoint);
                             }
                         }
                     }
@@ -112,66 +82,28 @@ namespace FooRushHour
                 var currentBoard = boards.Dequeue();
                 visited[currentBoard.ToString()] = true;
 
-                //currentBoard.PrintMatrix();
-                //Console.WriteLine(i++);
+                // currentBoard.PrintMatrix();
+                // Console.WriteLine(i++);
                 goal = currentBoard.GoalReached();
                 if (goal)
                     solvedBoard = currentBoard;
 
                 foreach (var block in currentBoard.BlockList)
                 {
-                    if (block.ValidMove(Direction.Right))
+                    foreach (var direction in directions)
                     {
-                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                        while (board.BlockList[block.Id - 1].ValidMove(Direction.Right))
+                        if (block.ValidMove(direction))
                         {
-                            board.BlockList[block.Id - 1].Move(Direction.Right);
-                            if (!visited.ContainsKey(board.ToString()))
+                            var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
+                            while (board.BlockList[block.Id - 1].ValidMove(direction))
                             {
-                                visited[board.ToString()] = true;
-                                boards.Enqueue(board);
-                            }
-                        }
-                    }
-
-                    if (block.ValidMove(Direction.Left))
-                    {
-                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                        while (board.BlockList[block.Id - 1].ValidMove(Direction.Left))
-                        {
-                            board.BlockList[block.Id - 1].Move(Direction.Left);
-                            if (!visited.ContainsKey(board.ToString()))
-                            {
-                                visited[board.ToString()] = true;
-                                boards.Enqueue(board);
-                            }
-                        }
-                    }
-
-                    if (block.ValidMove(Direction.Up))
-                    {
-                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                        while (board.BlockList[block.Id - 1].ValidMove(Direction.Up))
-                        {
-                            board.BlockList[block.Id - 1].Move(Direction.Up);
-                            if (!visited.ContainsKey(board.ToString()))
-                            {
-                                visited[board.ToString()] = true;
-                                boards.Enqueue(board);
-                            }
-                        }
-                    }
-
-                    if (block.ValidMove(Direction.Down))
-                    {
-                        var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                        while (board.BlockList[block.Id - 1].ValidMove(Direction.Down))
-                        {
-                            board.BlockList[block.Id - 1].Move(Direction.Down);
-                            if (!visited.ContainsKey(board.ToString()))
-                            {
-                                visited[board.ToString()] = true;
-                                boards.Enqueue(board);
+                                board.BlockList[block.Id - 1].Move(direction);
+                                if (!visited.ContainsKey(board.ToString()))
+                                {
+                                    visited[board.ToString()] = true;
+                                    boards.Enqueue(board);
+                                }
+                                // board = new Board(board.Width, board.Height, board.BlockList, board.EndPoint);
                             }
                         }
                     }
