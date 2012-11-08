@@ -64,8 +64,8 @@ namespace FooRushHour
 
         public void RefreshMatrix()
         {
-            for (int y = 0; y < Width; y++)
-                for (int x = 0; x < Height; x++)
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
                     Matrix[y, x] = 0;
 
             BlockList.ForEach(b => _addBlockToMatrix(b));
@@ -98,17 +98,16 @@ namespace FooRushHour
         {
             var str = new StringBuilder();
 
-            str.Append(string.Format("SIZE: ({0}, {1})\n", Width, Height));
-            str.Append(string.Format("END: ({0}, {1})\n", EndPoint.X, EndPoint.Y)); 
-            str.Append("BLOCKS: {\n");
+            str.Append(string.Format("SIZE: {0}, {1}\n", Width, Height));
+            str.Append(string.Format("END: {0}, {1}\n", EndPoint.X, EndPoint.Y)); 
+            str.Append(string.Format("BLOCKS: {0}\n", BlockList.Count));
 
             // BlockList Format:
             // [<id>,<orientation>,<type>,<size>|<x>,<y>]
             BlockList.ForEach(b =>
-                str.Append(string.Format("  [{0},{1},{2},{3}|{4},{5}]\n", b.Id, b.Orientation.ToString(), b.Type, b.Size, b.Postition.X, b.Postition.Y))
+                str.Append(string.Format("{0},{1},{2},{3}|{4},{5}\n", b.Id, b.Orientation.ToString(), b.Type, b.Size, b.Postition.X, b.Postition.Y))
             );
 
-            str.Append("}\n");
             return str.ToString();
         }
 

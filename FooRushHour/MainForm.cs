@@ -48,16 +48,17 @@ namespace FooRushHour
             Menu = new MainMenu();
 
             MenuItem fileMenu = new MenuItem("&Board");
-            fileMenu.MenuItems.Add(new MenuItem("&Create Board"));
+            fileMenu.MenuItems.Add(new MenuItem("[&Create] Board"));
             fileMenu.MenuItems.Add(new MenuItem("&Create Random Board"));
-            fileMenu.MenuItems.Add(new MenuItem("&Open Board from File"));
-            fileMenu.MenuItems.Add(new MenuItem("&Save Board to File"));
+            fileMenu.MenuItems.Add(new MenuItem("[&Open] Board from File", new EventHandler(_openBoard)));
+            fileMenu.MenuItems.Add(new MenuItem("[&Save] Board to File", new EventHandler(_saveBoard)));
 
             MenuItem solveMenu = new MenuItem("&Solve");
             solveMenu.MenuItems.Add(new MenuItem("Solve using &DFS", new EventHandler((s, e) => _solverClick(s, e, b => Solver.DFSSolve(b)))));
             solveMenu.MenuItems.Add(new MenuItem("Solve using &BFS", new EventHandler((s, e) => _solverClick(s, e, b => Solver.BFSSolve(b)))));
 
             MenuItem speedMenu = new MenuItem("S&peed Adjustment");
+            speedMenu.MenuItems.Add(new MenuItem("50 ms", new EventHandler((s, e) => _timeoutMs = 50)));
             speedMenu.MenuItems.Add(new MenuItem("100 ms", new EventHandler((s, e) => _timeoutMs = 100)));
             speedMenu.MenuItems.Add(new MenuItem("200 ms", new EventHandler((s, e) => _timeoutMs = 200)));
             speedMenu.MenuItems.Add(new MenuItem("400 ms", new EventHandler((s, e) => _timeoutMs = 400)));
@@ -76,7 +77,7 @@ namespace FooRushHour
             _mainPanel.AutoSize = true;
             _mainPanel.Padding = new Padding(10);
 
-            _currentBoard = Board.TestBoard();
+            _currentBoard = BoardIO.ReadFile("Board1.txt");
             _boardControl = new BoardControl(_currentBoard);
             _mainPanel.Controls.Add(_boardControl);
 
@@ -109,6 +110,35 @@ namespace FooRushHour
             });
 
             animateGoal.Start();
+        }
+
+        private void _openBoard(object s, EventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            dlg.Filter = "Board Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            dlg.FilterIndex = 1;
+
+            var result = dlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                _currentBoard = BoardIO.ReadFile(dlg.FileName);
+                _mainPanel.Controls.Remove(_boardControl);
+                _boardControl = new BoardControl(_currentBoard);
+                _mainPanel.Controls.Add(_boardControl);
+            }
+        }
+
+        private void _saveBoard(object s, EventArgs e)
+        {
+            var dlg = new SaveFileDialog();
+            dlg.Filter = "Board Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            dlg.FilterIndex = 1;
+
+            var result = dlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                BoardIO.WriteFile(_currentBoard, dlg.FileName);
+            }
         }
     }
 }
