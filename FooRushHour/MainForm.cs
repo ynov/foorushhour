@@ -92,8 +92,10 @@ namespace FooRushHour
 
             _currentBoard.UserMovementLock = true;
             var boardSolution = f(_currentBoard);
+
             Task animateGoal = new Task(() =>
             {
+                Console.WriteLine("Movement trace:");
                 boardSolution.Path.ForEach(p =>
                 {
                     Console.WriteLine("Block-{0} Move {1} * {2}", p.BlockId, p.Direction.ToString(), p.Times);
@@ -102,6 +104,7 @@ namespace FooRushHour
                     _boardControl.UpdateBlockPosition(p.BlockId);
                     Thread.Sleep(_timeoutMs);
                 });
+                Console.WriteLine("Done\n");
                 _currentBoard.UserMovementLock = false;
             });
 
