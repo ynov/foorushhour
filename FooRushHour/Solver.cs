@@ -31,7 +31,6 @@ namespace FooRushHour
             while (boards.Count != 0 && !goal)
             {
                 var currentBoard = boards.Pop();
-                visited[currentBoard.ToString()] = true;
 
                 // currentBoard.PrintMatrix();
                 // Console.WriteLine(i++);
@@ -80,7 +79,6 @@ namespace FooRushHour
             while (boards.Count != 0 && !goal)
             {
                 var currentBoard = boards.Dequeue();
-                visited[currentBoard.ToString()] = true;
 
                 // currentBoard.PrintMatrix();
                 // Console.WriteLine(i++);

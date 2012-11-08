@@ -40,8 +40,8 @@ namespace FooRushHour
 
         private void _mainFormInit()
         {   
-            // var solvedBoard = Solver.TestDFSSolve();
-            var solvedBoard = Solver.TestBFSSolve();
+            var solvedBoard = Solver.TestDFSSolve();
+            // var solvedBoard = Solver.TestBFSSolve();
             // var boardControl = new BoardControl(Board.TestBoard());
             var boardControl = new BoardControl(solvedBoard);
 
