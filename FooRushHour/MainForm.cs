@@ -40,14 +40,13 @@ namespace FooRushHour
 
         private void _mainFormInit()
         {
-            // var board = Solver.TestDFSSolve().SolvedBoard;
-            // var board = Solver.TestBFSSolve().SolvedBoard;
-            // var board = Board.TestBoard();
+            var board = Board.TestBoard();
 
-            var boardSolution = Solver.TestBFSSolve();
-            var board = boardSolution.SolvedBoard;
+            // var boardSolution = Solver.DFSSolve(board);
+            var boardSolution = Solver.BFSSolve(board);
+            board = boardSolution.SolvedBoard;
             boardSolution.Path.ForEach(p =>
-                Console.WriteLine("Block-{0} Move {1}", p.BlockId, p.Direction.ToString())
+                Console.WriteLine("Block-{0} Move {1} * {2}", p.BlockId, p.Direction.ToString(), p.Times)
             );
 
             var boardControl = new BoardControl(board);

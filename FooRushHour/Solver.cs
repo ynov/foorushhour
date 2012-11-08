@@ -16,105 +16,69 @@ namespace FooRushHour
         public string PrevNode { get; set; }
         public int BlockId { get; set; }
         public Direction Direction { get; set; }
+        public int Times { get; set; }
     }
 
     public class Solver
     {
         public static Direction[] directions = new Direction[] 
         {
-            Direction.Right,
-            Direction.Left,
-            Direction.Up,
-            Direction.Down
+            Direction.Right, Direction.Left, Direction.Up, Direction.Down
         };
 
-        // DFS
-        public static BoardSolution TestDFSSolve()
+        public static BoardSolution DFSSolve(Board initialBoard)
         {
-            Board solvedBoard = null;
-            var boards = new Stack<Board>();
-
-            string start = null;
-            string finish = null;
-
-            var visited = new Dictionary<string, Movement>();
-
-            boards.Push(Board.TestBoard());
-
-            var goal = false;
-            while (boards.Count != 0 && !goal)
-            {
-                var currentBoard = boards.Pop();
-                if (start == null)
-                    start = currentBoard.ToString();
-
-                // currentBoard.PrintMatrix();
-                // Console.WriteLine(i++);
-
-                goal = currentBoard.GoalReached();
-                if (goal)
-                {
-                    solvedBoard = currentBoard;
-                    finish = solvedBoard.ToString();
-                    break;
-                }
-
-                foreach (var block in currentBoard.BlockList)
-                {
-                    foreach (var direction in directions)
-                    {
-                        if (block.ValidMove(direction))
-                        {
-                            var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                            while (board.BlockList[block.Id - 1].ValidMove(direction))
-                            {
-                                board.BlockList[block.Id - 1].Move(direction);
-                                if (!visited.ContainsKey(board.ToString()))
-                                {
-                                    visited[board.ToString()] = new Movement
-                                    {
-                                        PrevNode = currentBoard.ToString(),
-                                        BlockId = block.Id,
-                                        Direction = direction,
-                                    };
-
-                                    boards.Push(board);
-                                }
-                                // board = new Board(board.Width, board.Height, board.BlockList, board.EndPoint);
-                            }
-                        }
-                    }
-                }
-            }
-
-            boards.Clear();
-            return new BoardSolution()
-            {
-                SolvedBoard = solvedBoard,
-                Path = createPath(start, finish, visited),
-            };
+            return solve(initialBoard, Algorithm.DFS);
         }
         
-        // BFS
-        public static BoardSolution TestBFSSolve()
+        public static BoardSolution BFSSolve(Board initialBoard)
+        {
+            return solve(initialBoard, Algorithm.BFS);
+        }
+
+        private static BoardSolution solve(Board initialBoard, Algorithm algorithm)
         {
             Board solvedBoard = null;
-            var boards = new Queue<Board>();
+            IEnumerable<Board> boards = null;
+
+            Action<IEnumerable<Board>, Board> PushF = null;
+            Func<IEnumerable<Board>, Board> PopF = null;
+            Func<IEnumerable<Board>, int> CountF = null;
+            Action<IEnumerable<Board>> ClearF = null;
+
+            if (algorithm == Algorithm.DFS)
+            {
+                boards = new Stack<Board>();
+                PushF = (bs, b) => ((Stack<Board>)bs).Push(b);
+                PopF = (bs) => ((Stack<Board>)bs).Pop();
+                CountF = bs => ((Stack<Board>)bs).Count;
+                ClearF = bs => ((Stack<Board>)bs).Clear();
+            }
+            else if (algorithm == Algorithm.BFS)
+            {
+                boards = new Queue<Board>();
+                PushF = (bs, b) => ((Queue<Board>)bs).Enqueue(b);
+                PopF = (bs) => ((Queue<Board>)bs).Dequeue();
+                CountF = bs => ((Queue<Board>)bs).Count;
+                ClearF = bs => ((Queue<Board>)bs).Clear();
+            }   
 
             string start = null;
             string finish = null;
 
             var visited = new Dictionary<string, Movement>();
 
-            boards.Enqueue(Board.TestBoard());
+            PushF(boards, initialBoard);
 
+            // int i = 1;
             var goal = false;
-            while (boards.Count != 0 && !goal)
+            while (CountF(boards) != 0 && !goal)
             {
-                var currentBoard = boards.Dequeue();
+                var currentBoard = PopF(boards);
+                
                 if (start == null)
                     start = currentBoard.ToString();
-
+                
                 // currentBoard.PrintMatrix();
                 // Console.WriteLine(i++);
 
@@ -133,6 +97,7 @@ namespace FooRushHour
                         if (block.ValidMove(direction))
                         {
                             var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
+                            int times = 1;
                             while (board.BlockList[block.Id - 1].ValidMove(direction))
                             {
                                 board.BlockList[block.Id - 1].Move(direction);
@@ -143,19 +108,20 @@ namespace FooRushHour
                                         PrevNode = currentBoard.ToString(),
                                         BlockId = block.Id,
                                         Direction = direction,
+                                        Times = times++,
                                     };
 
-                                    boards.Enqueue(board);
+                                    PushF(boards, board);
                                 }
-                                // board = new Board(board.Width, board.Height, board.BlockList, board.EndPoint);
                             }
                         }
                     }
                 }
             }
 
-            boards.Clear();
-            return new BoardSolution() {
+            ClearF(boards);
+            return new BoardSolution()
+            {
                 SolvedBoard = solvedBoard,
                 Path = createPath(start, finish, visited),
             };

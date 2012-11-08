@@ -6,17 +6,7 @@ using System.Threading.Tasks;
 
 namespace FooRushHour
 {
-    public enum Orientation
-    {
-        Horizontal,
-        Vertical
-    }
-
-    public enum Direction
-    {
-        Up,
-        Right,
-        Down,
-        Left
-    }
+    public enum Orientation { Horizontal, Vertical, }
+    public enum Direction { Up, Right, Down, Left, }
+    public enum Algorithm { DFS, BFS, }
 }
