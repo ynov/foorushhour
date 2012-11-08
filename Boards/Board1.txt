@@ -1,0 +1,11 @@
+SIZE: 6, 6
+END: 4, 2
+BLOCKS: 8
+1,Horizontal,1,2|2,2
+2,Horizontal,0,3|3,0
+3,Horizontal,0,2|2,1
+4,Vertical,0,3|0,1
+5,Vertical,0,3|4,1
+6,Horizontal,0,3|3,4
+7,Horizontal,0,3|3,5
+8,Vertical,0,2|2,4
