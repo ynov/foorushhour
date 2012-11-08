@@ -17,35 +17,11 @@ namespace FooRushHour
             _lastId = 0;
         }
 
-        public int Id
-        {
-            get;
-            private set;
-        }
-
-        public Orientation Orientation
-        {
-            get;
-            set;
-        }
-
-        public int Type
-        {
-            get;
-            private set;
-        }
-
-        public int Size
-        {
-            get;
-            private set;
-        }
-
-        public Point Location
-        {
-            get;
-            set;
-        }
+        public int Id { get; private set; }
+        public Orientation Orientation { get; set; }
+        public int Type { get; private set; }
+        public int Size { get; private set; }
+        public Point Location { get; set; }
 
         public Point Postition
         {
