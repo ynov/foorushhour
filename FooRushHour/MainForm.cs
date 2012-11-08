@@ -39,11 +39,18 @@ namespace FooRushHour
         }
 
         private void _mainFormInit()
-        {   
-            var solvedBoard = Solver.TestDFSSolve();
-            // var solvedBoard = Solver.TestBFSSolve();
-            // var boardControl = new BoardControl(Board.TestBoard());
-            var boardControl = new BoardControl(solvedBoard);
+        {
+            // var board = Solver.TestDFSSolve().SolvedBoard;
+            // var board = Solver.TestBFSSolve().SolvedBoard;
+            // var board = Board.TestBoard();
+
+            var boardSolution = Solver.TestBFSSolve();
+            var board = boardSolution.SolvedBoard;
+            boardSolution.Path.ForEach(p =>
+                Console.WriteLine("Block-{0} Move {1}", p.BlockId, p.Direction.ToString())
+            );
+
+            var boardControl = new BoardControl(board);
 
             var panel = new FlowLayoutPanel();
             panel.AutoSize = true;
