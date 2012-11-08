@@ -48,7 +48,7 @@ namespace FooRushHour
             Menu = new MainMenu();
 
             MenuItem fileMenu = new MenuItem("&Board");
-            fileMenu.MenuItems.Add(new MenuItem("[&Create] Board"));
+            fileMenu.MenuItems.Add(new MenuItem("[&Create] Board", new EventHandler(_createBoard)));
             fileMenu.MenuItems.Add(new MenuItem("&Create Random Board"));
             fileMenu.MenuItems.Add(new MenuItem("[&Open] Board from File", new EventHandler(_openBoard)));
             fileMenu.MenuItems.Add(new MenuItem("[&Save] Board to File", new EventHandler(_saveBoard)));
@@ -77,7 +77,7 @@ namespace FooRushHour
             _mainPanel.AutoSize = true;
             _mainPanel.Padding = new Padding(10);
 
-            _currentBoard = BoardIO.ReadFile("Board1.txt");
+            _currentBoard = BoardIO.ReadFile("StartupDefault.txt");
             _boardControl = new BoardControl(_currentBoard);
             _mainPanel.Controls.Add(_boardControl);
 
@@ -102,7 +102,7 @@ namespace FooRushHour
                     Console.WriteLine("Block-{0} Move {1} * {2}", p.BlockId, p.Direction.ToString(), p.Times);
                     for (int i = 0; i < p.Times; i++)
                         _currentBoard.BlockList[p.BlockId - 1].Move(p.Direction);
-                    _boardControl.UpdateBlockPosition(p.BlockId);
+                    _boardControl.Invoke(new Action<Movement>(q => _boardControl.UpdateBlockPosition(q.BlockId)), p);
                     Thread.Sleep(_timeoutMs);
                 });
                 Console.WriteLine("Done\n");
@@ -139,6 +139,20 @@ namespace FooRushHour
             {
                 BoardIO.WriteFile(_currentBoard, dlg.FileName);
             }
+        }
+
+        private void _createBoard(object s, EventArgs e)
+        {
+            CreateDialog createDlg = new CreateDialog();
+            createDlg.ShowDialog();
+
+            if (createDlg.Board == null)
+                return;
+
+            _currentBoard = createDlg.Board;
+            _mainPanel.Controls.Remove(_boardControl);
+            _boardControl = new BoardControl(_currentBoard);
+            _mainPanel.Controls.Add(_boardControl);
         }
     }
 }
