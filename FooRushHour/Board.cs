@@ -11,40 +11,19 @@ namespace FooRushHour
         public const int BOX_SQUARE_SIZE = 80;
         private Block _blockOne = null;
 
-        public List<Block> BlockList
-        {
-            get;
-            private set;
-        }
-
-        public int[,] Matrix
-        {
-            get;
-            set;
-        }
-
-        public int Width
-        {
-            get;
-            private set;
-        }
-
-        public int Height
-        {
-            get;
-            private set;
-        }
-
-        public Point EndPoint
-        {
-            get;
-            private set;
-        }
+        public List<Block> BlockList { get; private set;}
+        public int[,] Matrix { get; set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public Point EndPoint { get; private set; }
+        public bool UserMovementLock { get; set; }
 
         public Board(int width, int height, List<Block> blockList, Point endPoint)
         {
             Width = width;
             Height = height;
+
+            UserMovementLock = false;
 
             Matrix = new int[height, width];
 
@@ -72,7 +51,6 @@ namespace FooRushHour
                 new Block(null, Orientation.Horizontal, 2, new Point(2, 2), 1),
                 new Block(null, Orientation.Horizontal, 3, new Point(3, 0)),
                 new Block(null, Orientation.Horizontal, 2, new Point(2, 1)),
-                // new Block(null, Orientation.Vertical, 2, new Point(4, 1)),
                 new Block(null, Orientation.Vertical, 3, new Point(0, 1)),
                 new Block(null, Orientation.Vertical, 3, new Point(4, 1)),
                 new Block(null, Orientation.Horizontal, 3, new Point(3, 4)),
@@ -110,7 +88,7 @@ namespace FooRushHour
             var str = new StringBuilder();
 
             BlockList.ForEach(b =>
-                str.Append(string.Format("[{0},{1},{2}]", b.Id, b.Postition.X, b.Postition.Y))
+                str.Append(string.Format("{0}{1}{2}", b.Id, b.Postition.X, b.Postition.Y))
             );
 
             return str.ToString();

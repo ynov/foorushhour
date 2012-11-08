@@ -25,6 +25,11 @@ namespace FooRushHour
             _boardControlInit();
         }
 
+        public void UpdateBlockPosition(int blockId)
+        {
+            Controls[blockId - 1].Location = _board.BlockList[blockId - 1].Location;
+        }
+
         private void _paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;

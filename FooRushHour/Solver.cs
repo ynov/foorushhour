@@ -97,10 +97,11 @@ namespace FooRushHour
                         if (block.ValidMove(direction))
                         {
                             var board = new Board(currentBoard.Width, currentBoard.Height, currentBoard.BlockList, currentBoard.EndPoint);
-                            int times = 1;
+                            int times = 0;
                             while (board.BlockList[block.Id - 1].ValidMove(direction))
                             {
                                 board.BlockList[block.Id - 1].Move(direction);
+                                times++;
                                 if (!visited.ContainsKey(board.ToString()))
                                 {
                                     visited[board.ToString()] = new Movement
@@ -108,7 +109,7 @@ namespace FooRushHour
                                         PrevNode = currentBoard.ToString(),
                                         BlockId = block.Id,
                                         Direction = direction,
-                                        Times = times++,
+                                        Times = times,
                                     };
 
                                     PushF(boards, board);

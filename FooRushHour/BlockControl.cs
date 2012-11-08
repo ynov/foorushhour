@@ -67,6 +67,9 @@ namespace FooRushHour
 
         private void _mouseMove(int x, int y)
         {
+            if (_board.UserMovementLock)
+                return;
+
             if (mouseDown)
             {
                 if (x > _button.Width && _block.ValidMove(Direction.Right))
