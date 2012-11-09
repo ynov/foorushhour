@@ -12,10 +12,14 @@ namespace FooRushHour
 {
     public partial class BoardControl : UserControl
     {
+        private MainForm _mainForm;
         private Board _board;
 
-        public BoardControl(Board board)
+        public ToolboxForm Toolbox { get; set; }
+
+        public BoardControl(MainForm mainForm, Board board)
         {
+            _mainForm = mainForm;
             _board = board;
             Width = Board.BOX_SQUARE_SIZE * _board.Width + 1;
             Height = Board.BOX_SQUARE_SIZE * _board.Height + 1;
@@ -23,6 +27,8 @@ namespace FooRushHour
             InitializeComponent();
             Paint += new PaintEventHandler(_paint);
             _boardControlInit();
+
+            MouseClick += new MouseEventHandler(_mouseClick);
         }
 
         public void UpdateBlockPosition(int blockId)
@@ -46,6 +52,18 @@ namespace FooRushHour
             _board.BlockList.ForEach(b => Controls.Add(new BlockControl(_board, b)));
             _board.PrintMatrix();
             Console.WriteLine(_board.ToText());
+        }
+
+        private void _mouseClick(object s, MouseEventArgs e)
+        {
+            if (_mainForm.EditingMode)
+            {
+                var block = new Block(_board, Toolbox.Orientation, Toolbox.Length,
+                    new Point(e.X / Board.BOX_SQUARE_SIZE, e.Y / Board.BOX_SQUARE_SIZE));
+
+                _board.BlockList.Add(block);
+                Controls.Add(new BlockControl(_board, block));
+            }
         }
     }
 }
