@@ -50,7 +50,7 @@
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(194, 361);
+            this.MainPanel.Size = new System.Drawing.Size(194, 306);
             this.MainPanel.TabIndex = 0;
             // 
             // BlockPanel
@@ -62,9 +62,9 @@
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(4, 280);
+            this.CloseButton.Location = new System.Drawing.Point(4, 274);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(113, 29);
+            this.CloseButton.Size = new System.Drawing.Size(187, 29);
             this.CloseButton.TabIndex = 4;
             this.CloseButton.Text = "Close and Save";
             this.CloseButton.UseVisualStyleBackColor = true;
@@ -110,7 +110,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(194, 361);
+            this.ClientSize = new System.Drawing.Size(194, 306);
             this.Controls.Add(this.MainPanel);
             this.Name = "ToolboxForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
