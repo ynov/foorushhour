@@ -50,7 +50,7 @@ namespace FooRushHour
                 g.DrawLine(pen, 0, y * Board.BOX_SQUARE_SIZE, _board.Width * Board.BOX_SQUARE_SIZE, y * Board.BOX_SQUARE_SIZE);
 
             g.FillRectangle(new SolidBrush(Color.Gold), _board.EndPoint.X * Board.BOX_SQUARE_SIZE + 5, _board.EndPoint.Y * Board.BOX_SQUARE_SIZE + 5,
-                Board.BOX_SQUARE_SIZE * 2 - 10, Board.BOX_SQUARE_SIZE - 10);
+                Board.BOX_SQUARE_SIZE * 2 - 5, Board.BOX_SQUARE_SIZE - 10);
         }
 
         private void _boardControlInit()
