@@ -52,7 +52,7 @@ namespace FooRushHour
             boardMenu.MenuItems.Add(new MenuItem("[&Create] Board", new EventHandler(_createBoard)));
             boardMenu.MenuItems.Add(new MenuItem("&Create Random Board"));
             boardMenu.MenuItems.Add(new MenuItem("[&Open] Board from File", new EventHandler(_openBoard)));
-            boardMenu.MenuItems.Add(new MenuItem("[&Save] Board to File", new EventHandler(_saveBoard)));
+            boardMenu.MenuItems.Add(new MenuItem("[&Save] Board to File", new EventHandler((s, e) => _saveBoard())));
 
             MenuItem solveMenu = new MenuItem("&Solve");
             solveMenu.Name = "solveMenu";
@@ -130,7 +130,7 @@ namespace FooRushHour
             }
         }
 
-        private void _saveBoard(object s, EventArgs e)
+        private string _saveBoard()
         {
             var dlg = new SaveFileDialog();
             dlg.Filter = "Board Text Files (.txt)|*.txt|All Files (*.*)|*.*";
@@ -140,7 +140,10 @@ namespace FooRushHour
             if (result == DialogResult.OK)
             {
                 BoardIO.WriteFile(_currentBoard, dlg.FileName);
+                return dlg.FileName;
             }
+
+            return null;
         }
 
         private void _createBoard(object s, EventArgs e)
@@ -166,17 +169,30 @@ namespace FooRushHour
             _boardControl.EditingMode = true;
         }
 
-        public void DoneEditing(ToolboxForm toolbox)
+        public bool DoneEditing(ToolboxForm toolbox)
         {
             if (!_boardControl.EditingMode)
-                return;
+                return false;
 
-            _saveBoard(null, null);
-            _mainPanel.Controls.Remove(toolbox);
+            var filename = _saveBoard();
+            if (filename == null)
+            {
+                MessageBox.Show("You must save your Board before continuing!", "!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            _currentBoard = BoardIO.ReadFile(filename);
+            _mainPanel.Controls.Remove(_boardControl);
+            _boardControl = new BoardControl(this, _currentBoard);
+            _mainPanel.Controls.Add(_boardControl);
+
             Menu.MenuItems["boardMenu"].Enabled = true;
             Menu.MenuItems["solveMenu"].Enabled = true;
+
             _boardControl.Toolbox = null;
             _boardControl.EditingMode = false;
+
+            return true;
         }
     }
 }

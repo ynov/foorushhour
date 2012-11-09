@@ -79,13 +79,16 @@ namespace FooRushHour
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            _mainForm.DoneEditing(this);
-            Close();
+            if (_mainForm.DoneEditing(this))
+                Close();
         }
 
-        private void ToolboxForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void ToolboxForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _mainForm.DoneEditing(this);
+            if (!_mainForm.DoneEditing(this))
+                e.Cancel = true;
+            else
+                e.Cancel = false;
         }
     }
 }

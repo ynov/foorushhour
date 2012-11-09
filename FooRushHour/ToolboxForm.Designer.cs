@@ -114,7 +114,7 @@
             this.Controls.Add(this.MainPanel);
             this.Name = "ToolboxForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ToolboxForm_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ToolboxForm_FormClosing);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             this.ResumeLayout(false);
