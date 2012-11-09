@@ -17,7 +17,6 @@ namespace FooRushHour
         private Panel _mainPanel = null;
         private Board _currentBoard = null;
         private BoardControl _boardControl = null;
-        private InfoBox _infoBox = null;
         private int _timeoutMs = 200;
 
         public static MainForm Instance
@@ -51,7 +50,7 @@ namespace FooRushHour
             MenuItem boardMenu = new MenuItem("&Board");
             boardMenu.Name = "boardMenu";
             boardMenu.MenuItems.Add(new MenuItem("[&Create] Board", new EventHandler(_createBoard)));
-            boardMenu.MenuItems.Add(new MenuItem("&Create Random Board"));
+            // boardMenu.MenuItems.Add(new MenuItem("&Create Random Board"));
             boardMenu.MenuItems.Add(new MenuItem("[&Open] Board from File", new EventHandler(_openBoard)));
             boardMenu.MenuItems.Add(new MenuItem("[&Save] Board to File", new EventHandler((s, e) => _saveBoard())));
 
@@ -82,10 +81,9 @@ namespace FooRushHour
 
             _currentBoard = BoardIO.ReadFile("StartupDefault.txt");
             _boardControl = new BoardControl(this, _currentBoard);
-            _infoBox = new InfoBox();
 
             _mainPanel.Controls.Add(_boardControl);
-            _mainPanel.Controls.Add(_infoBox);
+            _mainPanel.Controls.Add(InfoBox.Instance);
 
             Controls.Add(_mainPanel);
             AutoSize = true;
@@ -109,6 +107,7 @@ namespace FooRushHour
                     for (int i = 0; i < p.Times; i++)
                         _currentBoard.BlockList[p.BlockId - 1].Move(p.Direction);
                     _boardControl.Invoke(new Action<Movement>(q => _boardControl.UpdateBlockPosition(q.BlockId)), p);
+                    InfoBox.Instance.Invoke(new Action(() => InfoBox.Instance.IncementMovementCount()));
                     Thread.Sleep(_timeoutMs);
                 });
                 Console.WriteLine("Done\n");
@@ -199,11 +198,12 @@ namespace FooRushHour
 
         private void _refreshControls()
         {
+            InfoBox.Instance.ResetAll();
             _mainPanel.Controls.Remove(_boardControl);
-            _mainPanel.Controls.Remove(_infoBox);
+            _mainPanel.Controls.Remove(InfoBox.Instance);
             _boardControl = new BoardControl(this, _currentBoard);
             _mainPanel.Controls.Add(_boardControl);
-            _mainPanel.Controls.Add(_infoBox);
+            _mainPanel.Controls.Add(InfoBox.Instance);
         }
     }
 }

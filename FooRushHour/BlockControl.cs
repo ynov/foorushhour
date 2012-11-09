@@ -16,6 +16,7 @@ namespace FooRushHour
         private BoardControl _boardControl;
         private Block _block;
         private Button _button;
+        private bool _moving = false;
 
         private bool mouseDown = false;
 
@@ -63,7 +64,14 @@ namespace FooRushHour
                 _button.BackColor = Color.Gray;
 
             _button.MouseDown += new MouseEventHandler((s, e) => { mouseDown = true; _mouseRightDown(s, e); });
-            _button.MouseUp += new MouseEventHandler((s, e) => mouseDown = false);
+            _button.MouseUp += new MouseEventHandler((s, e) => {
+                mouseDown = false;
+                if (_moving)
+                {
+                    InfoBox.Instance.IncementMovementCount();
+                    _moving = false;
+                }
+            });
             _button.MouseMove += new MouseEventHandler((s, e) => _mouseMove(e.X, e.Y));
         }
 
@@ -75,14 +83,25 @@ namespace FooRushHour
             if (mouseDown)
             {
                 if (x > _button.Width && _block.ValidMove(Direction.Right))
+                {
+                    _moving = true;
                     _block.Move(Direction.Right, true);
+                }
                 else if (x < 0 && _block.ValidMove(Direction.Left))
+                {
+                    _moving = true;
                     _block.Move(Direction.Left, true);
+                }
                 else if (y > _button.Height && _block.ValidMove(Direction.Down))
+                {
+                    _moving = true;
                     _block.Move(Direction.Down, true);
+                }
                 else if (y < 0 && _block.ValidMove(Direction.Up))
+                {
+                    _moving = true;
                     _block.Move(Direction.Up, true);
-
+                }
                 Location = _block.Location;
             }
         }
