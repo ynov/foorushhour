@@ -137,6 +137,7 @@ namespace FooRushHour
             var dlg = new SaveFileDialog();
             dlg.Filter = "Board Text Files (.txt)|*.txt|All Files (*.*)|*.*";
             dlg.FilterIndex = 1;
+            dlg.OverwritePrompt = false;
 
             var result = dlg.ShowDialog();
             if (result == DialogResult.OK)
@@ -189,6 +190,9 @@ namespace FooRushHour
 
             _boardControl.Toolbox = null;
             _boardControl.EditingMode = false;
+
+            if (!toolbox.IsDisposed)
+                toolbox.Close();
 
             return true;
         }
