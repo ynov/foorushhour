@@ -17,6 +17,7 @@ namespace FooRushHour
         private Panel _mainPanel = null;
         private Board _currentBoard = null;
         private BoardControl _boardControl = null;
+        private InfoBox _infoBox = null;
         private int _timeoutMs = 200;
 
         public static MainForm Instance
@@ -81,7 +82,10 @@ namespace FooRushHour
 
             _currentBoard = BoardIO.ReadFile("StartupDefault.txt");
             _boardControl = new BoardControl(this, _currentBoard);
+            _infoBox = new InfoBox();
+
             _mainPanel.Controls.Add(_boardControl);
+            _mainPanel.Controls.Add(_infoBox);
 
             Controls.Add(_mainPanel);
             AutoSize = true;
@@ -124,9 +128,7 @@ namespace FooRushHour
             if (result == DialogResult.OK)
             {
                 _currentBoard = BoardIO.ReadFile(dlg.FileName);
-                _mainPanel.Controls.Remove(_boardControl);
-                _boardControl = new BoardControl(this, _currentBoard);
-                _mainPanel.Controls.Add(_boardControl);
+                _refreshControls();
             }
         }
 
@@ -159,9 +161,7 @@ namespace FooRushHour
             toolbox.Show();
 
             _currentBoard = createDlg.Board;
-            _mainPanel.Controls.Remove(_boardControl);
-            _boardControl = new BoardControl(this, _currentBoard);
-            _mainPanel.Controls.Add(_boardControl);
+            _refreshControls();
 
             Menu.MenuItems["boardMenu"].Enabled = false;
             Menu.MenuItems["solveMenu"].Enabled = false;
@@ -182,9 +182,7 @@ namespace FooRushHour
             }
 
             _currentBoard = BoardIO.ReadFile(filename);
-            _mainPanel.Controls.Remove(_boardControl);
-            _boardControl = new BoardControl(this, _currentBoard);
-            _mainPanel.Controls.Add(_boardControl);
+            _refreshControls();
 
             Menu.MenuItems["boardMenu"].Enabled = true;
             Menu.MenuItems["solveMenu"].Enabled = true;
@@ -193,6 +191,15 @@ namespace FooRushHour
             _boardControl.EditingMode = false;
 
             return true;
+        }
+
+        private void _refreshControls()
+        {
+            _mainPanel.Controls.Remove(_boardControl);
+            _mainPanel.Controls.Remove(_infoBox);
+            _boardControl = new BoardControl(this, _currentBoard);
+            _mainPanel.Controls.Add(_boardControl);
+            _mainPanel.Controls.Add(_infoBox);
         }
     }
 }

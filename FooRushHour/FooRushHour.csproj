@@ -85,6 +85,12 @@
       <DependentUpon>CreateDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Enum.cs" />
+    <Compile Include="InfoBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoBox.Designer.cs">
+      <DependentUpon>InfoBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
