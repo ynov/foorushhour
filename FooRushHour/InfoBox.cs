@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
-using System.Threading;
 
 namespace FooRushHour
 {
@@ -15,8 +14,7 @@ namespace FooRushHour
     {
         public int MovementCount { get; private set; }
         public int TimerCount { get; private set; }
-        private Task _timerTask = null;
-        private bool _timerStop = false;
+        private Timer _timer;
 
         private static InfoBox _instance = null;
 
@@ -45,6 +43,7 @@ namespace FooRushHour
 
         public void ResetAll()
         {
+            LabelGoal.Text = "-";
             StopTimer();
             ResetTimer();
             ResetMovementCount();
@@ -65,34 +64,19 @@ namespace FooRushHour
 
         public void StartTimer()
         {
-            if (_timerTask != null)
-            {
-                ResumeTimer();
+            if (_timer != null)
                 return;
-            }
 
-            _timerTask = new Task(() => {
-                while (!_timerStop)
-                {
-                    Thread.Sleep(100);
-                    Invoke(new Action(() =>
-                    {
-                        IncrementTimer();
-                    }));
-                }
-            });
-
-            _timerTask.Start();
+            _timer = new Timer();
+            _timer.Tick += new EventHandler((s, e) => IncrementTimer());
+            _timer.Start();
         }
 
         public void StopTimer()
         {
-            _timerStop = true;
-        }
-
-        public void ResumeTimer()
-        {
-            _timerStop = false;
+            if (_timer != null)
+                _timer.Stop();
+            _timer = null;
         }
 
         public void ResetMovementCount()
@@ -105,6 +89,12 @@ namespace FooRushHour
         {
             MovementCount++;
             LabelMvCount.Text = MovementCount.ToString();
+        }
+
+        public void GoalReached()
+        {
+            StopTimer();
+            LabelGoal.Text = "Goal Reached!";
         }
     }
 }

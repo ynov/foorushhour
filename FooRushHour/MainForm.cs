@@ -50,6 +50,7 @@ namespace FooRushHour
             MenuItem boardMenu = new MenuItem("&Board");
             boardMenu.Name = "boardMenu";
             boardMenu.MenuItems.Add(new MenuItem("[&Create] Board", new EventHandler(_createBoard)));
+            boardMenu.MenuItems.Add(new MenuItem("[&Edit] Board", new EventHandler(_editBoard)));
             // boardMenu.MenuItems.Add(new MenuItem("&Create Random Board"));
             boardMenu.MenuItems.Add(new MenuItem("[&Open] Board from File", new EventHandler(_openBoard)));
             boardMenu.MenuItems.Add(new MenuItem("[&Save] Board to File", new EventHandler((s, e) => _saveBoard())));
@@ -96,6 +97,10 @@ namespace FooRushHour
                 return;
 
             _currentBoard.UserMovementLock = true;
+
+            InfoBox.Instance.StopTimer();
+            InfoBox.Instance.ResetTimer();
+            InfoBox.Instance.StartTimer();
             var boardSolution = f(_currentBoard);
 
             Task animateGoal = new Task(() =>
@@ -104,13 +109,18 @@ namespace FooRushHour
                 boardSolution.Path.ForEach(p =>
                 {
                     Console.WriteLine("Block-{0} Move {1} * {2}", p.BlockId, p.Direction.ToString(), p.Times);
+                    
                     for (int i = 0; i < p.Times; i++)
-                        _currentBoard.BlockList[p.BlockId - 1].Move(p.Direction);
+                    {
+                        _currentBoard.BlockList[p.BlockId - 1].Move(p.Direction, true);
+                    }
+                    
                     _boardControl.Invoke(new Action<Movement>(q => _boardControl.UpdateBlockPosition(q.BlockId)), p);
                     InfoBox.Instance.Invoke(new Action(() => InfoBox.Instance.IncementMovementCount()));
                     Thread.Sleep(_timeoutMs);
                 });
                 Console.WriteLine("Done\n");
+                InfoBox.Instance.StopTimer();
                 _currentBoard.UserMovementLock = false;
             });
 
@@ -162,6 +172,22 @@ namespace FooRushHour
 
             _currentBoard = createDlg.Board;
             _refreshControls();
+            InfoBox.Instance.StopTimer();
+
+            Menu.MenuItems["boardMenu"].Enabled = false;
+            Menu.MenuItems["solveMenu"].Enabled = false;
+            _boardControl.Toolbox = toolbox;
+            _boardControl.EditingMode = true;
+        }
+
+        private void _editBoard(object s, EventArgs e)
+        {
+            var toolbox = new ToolboxForm(this);
+            toolbox.Location = new Point(Location.X + Width, Location.Y);
+            toolbox.Show();
+
+            _refreshControls();
+            InfoBox.Instance.StopTimer();
 
             Menu.MenuItems["boardMenu"].Enabled = false;
             Menu.MenuItems["solveMenu"].Enabled = false;

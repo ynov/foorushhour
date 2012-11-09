@@ -32,6 +32,7 @@
             this.LabelMvCount = new System.Windows.Forms.Label();
             this.LabelTimer = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.LabelGoal = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -74,10 +75,22 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Timer: ";
             // 
+            // LabelGoal
+            // 
+            this.LabelGoal.AutoSize = true;
+            this.LabelGoal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelGoal.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.LabelGoal.Location = new System.Drawing.Point(3, 46);
+            this.LabelGoal.Name = "LabelGoal";
+            this.LabelGoal.Size = new System.Drawing.Size(11, 13);
+            this.LabelGoal.TabIndex = 4;
+            this.LabelGoal.Text = "-";
+            // 
             // InfoBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.LabelGoal);
             this.Controls.Add(this.LabelTimer);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.LabelMvCount);
@@ -95,5 +108,6 @@
         private System.Windows.Forms.Label LabelMvCount;
         private System.Windows.Forms.Label LabelTimer;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label LabelGoal;
     }
 }

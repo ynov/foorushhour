@@ -76,7 +76,7 @@ namespace FooRushHour
             return false;
         }
 
-        public void Move(Direction dir, bool byMouse = false)
+        public void Move(Direction dir, bool byUser = false)
         {
             switch (dir)
             {
@@ -94,11 +94,15 @@ namespace FooRushHour
                     break;
             }
 
-            if (byMouse)
+            if (byUser)
             {
-                _board.PrintMatrix();
+                // _board.PrintMatrix();
                 if (_board.GoalReached())
+                {
+                    InfoBox.Instance.StopTimer();
+                    InfoBox.Instance.GoalReached();
                     Console.WriteLine("Goal Reached!");
+                }
             }
         }
     }

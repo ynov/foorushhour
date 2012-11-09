@@ -82,25 +82,26 @@ namespace FooRushHour
 
             if (mouseDown)
             {
+                bool verboseMode = !_boardControl.EditingMode;
                 if (x > _button.Width && _block.ValidMove(Direction.Right))
                 {
                     _moving = true;
-                    _block.Move(Direction.Right, true);
+                    _block.Move(Direction.Right, verboseMode);
                 }
                 else if (x < 0 && _block.ValidMove(Direction.Left))
                 {
                     _moving = true;
-                    _block.Move(Direction.Left, true);
+                    _block.Move(Direction.Left, verboseMode);
                 }
                 else if (y > _button.Height && _block.ValidMove(Direction.Down))
                 {
                     _moving = true;
-                    _block.Move(Direction.Down, true);
+                    _block.Move(Direction.Down, verboseMode);
                 }
                 else if (y < 0 && _block.ValidMove(Direction.Up))
                 {
                     _moving = true;
-                    _block.Move(Direction.Up, true);
+                    _block.Move(Direction.Up, verboseMode);
                 }
                 Location = _block.Location;
             }
