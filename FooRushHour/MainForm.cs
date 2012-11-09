@@ -19,8 +19,6 @@ namespace FooRushHour
         private BoardControl _boardControl = null;
         private int _timeoutMs = 200;
 
-        public bool EditingMode { get; private set; }
-
         public static MainForm Instance
         {
             get
@@ -41,8 +39,6 @@ namespace FooRushHour
         {
             InitializeComponent();
             _mainFormInit();
-
-            EditingMode = false;
 
             Instance = this;
         }
@@ -167,12 +163,12 @@ namespace FooRushHour
             Menu.MenuItems["boardMenu"].Enabled = false;
             Menu.MenuItems["solveMenu"].Enabled = false;
             _boardControl.Toolbox = toolbox;
-            EditingMode = true;
+            _boardControl.EditingMode = true;
         }
 
         public void DoneEditing(ToolboxForm toolbox)
         {
-            if (!EditingMode)
+            if (!_boardControl.EditingMode)
                 return;
 
             _saveBoard(null, null);
@@ -180,7 +176,7 @@ namespace FooRushHour
             Menu.MenuItems["boardMenu"].Enabled = true;
             Menu.MenuItems["solveMenu"].Enabled = true;
             _boardControl.Toolbox = null;
-            EditingMode = false;
+            _boardControl.EditingMode = false;
         }
     }
 }

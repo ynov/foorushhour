@@ -13,6 +13,7 @@ namespace FooRushHour
     public partial class BlockControl : UserControl
     {
         private Board _board;
+        private BoardControl _boardControl;
         private Block _block;
         private Button _button;
 
@@ -24,12 +25,13 @@ namespace FooRushHour
             private set;
         }
 
-        public BlockControl(Board board, Block block)
+        public BlockControl(Board board, Block block, BoardControl boardControl)
         {
             Id = block.Id;
 
             _board = board;
             _block = block;
+            _boardControl = boardControl;
             BackColor = Color.Transparent;
 
             InitializeComponent();
@@ -60,7 +62,7 @@ namespace FooRushHour
             else
                 _button.BackColor = Color.Gray;
 
-            _button.MouseDown += new MouseEventHandler((s, e) => mouseDown = true);
+            _button.MouseDown += new MouseEventHandler((s, e) => { mouseDown = true; _mouseRightDown(s, e); });
             _button.MouseUp += new MouseEventHandler((s, e) => mouseDown = false);
             _button.MouseMove += new MouseEventHandler((s, e) => _mouseMove(e.X, e.Y));
         }
@@ -82,6 +84,16 @@ namespace FooRushHour
                     _block.Move(Direction.Up, true);
 
                 Location = _block.Location;
+            }
+        }
+
+        private void _mouseRightDown(object s, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && _block.Type != 1 && _boardControl.EditingMode)
+            {
+                mouseDown = false;
+                _board.BlockList.Remove(_block);
+                _boardControl.Controls.Remove(this);
             }
         }
     }

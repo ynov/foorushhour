@@ -16,6 +16,7 @@ namespace FooRushHour
         private Board _board;
 
         public ToolboxForm Toolbox { get; set; }
+        public bool EditingMode { get; set; }
 
         public BoardControl(MainForm mainForm, Board board)
         {
@@ -27,6 +28,8 @@ namespace FooRushHour
             InitializeComponent();
             Paint += new PaintEventHandler(_paint);
             _boardControlInit();
+
+            EditingMode = false;
 
             MouseClick += new MouseEventHandler(_mouseClick);
         }
@@ -49,20 +52,20 @@ namespace FooRushHour
 
         private void _boardControlInit()
         {
-            _board.BlockList.ForEach(b => Controls.Add(new BlockControl(_board, b)));
+            _board.BlockList.ForEach(b => Controls.Add(new BlockControl(_board, b, this)));
             _board.PrintMatrix();
             Console.WriteLine(_board.ToText());
         }
 
         private void _mouseClick(object s, MouseEventArgs e)
         {
-            if (_mainForm.EditingMode)
+            if (EditingMode && e.Button == MouseButtons.Left)
             {
                 var block = new Block(_board, Toolbox.Orientation, Toolbox.Length,
                     new Point(e.X / Board.BOX_SQUARE_SIZE, e.Y / Board.BOX_SQUARE_SIZE));
 
                 _board.BlockList.Add(block);
-                Controls.Add(new BlockControl(_board, block));
+                Controls.Add(new BlockControl(_board, block, this));
             }
         }
     }
